@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "427261105525",
+    "firebase_url": "https://cardgame-cfb45.firebaseio.com",
+    "project_id": "cardgame-cfb45",
+    "storage_bucket": "cardgame-cfb45.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:427261105525:android:f58f5987d04f5a69",
+        "android_client_info": {
+          "package_name": "fr.skyle.cardgame.debug"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "427261105525-l2tpkve75ivvb56ul44a435kdkus1ocf.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "fr.skyle.cardgame.debug",
+            "certificate_hash": "ae729e431138788f20d307e8529c96c5b3cba8f3"
+          }
+        },
+        {
+          "client_id": "427261105525-9lqtsd8snu29bnjt1q38bl40fkm7dlup.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAUDdl0y9-xn3Oyll8W-xywhHSkCwEh39I"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "427261105525-9lqtsd8snu29bnjt1q38bl40fkm7dlup.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

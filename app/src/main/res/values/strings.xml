@@ -1,0 +1,11 @@
+<resources>
+    <string name="app_name">Template</string>
+    <string name="url_prod" translatable="false">CardGame Release</string>
+
+    <!-- FONTS -->
+    <string name="font_exo_bold">fonts/Exo2-Bold.ttf</string>
+    <string name="font_exo_italic">fonts/Exo2-Italic.ttf</string>
+    <string name="font_exo_light">fonts/Exo2-Light.ttf</string>
+    <string name="font_exo_medium">fonts/Exo2-Medium.ttf</string>
+    <string name="font_exo_regular">fonts/Exo2-Regular.ttf</string>
+</resources>

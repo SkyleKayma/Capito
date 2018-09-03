@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/cg_grey_dark_dark"
+    android:fitsSystemWindows="true"
+    android:gravity="center"
+    tools:ignore="MissingPrefix">
+
+    <LinearLayout
+        android:id="@+id/linearLayoutProgressLogin"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:gravity="center"
+        android:orientation="vertical">
+
+        <TextView
+            fontPath="@string/font_exo_regular"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Chargement en cours..."
+            android:textColor="@color/cg_grey_light"
+            android:textSize="18sp" />
+
+        <ProgressBar
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp" />
+    </LinearLayout>
+
+    <ScrollView
+        android:id="@+id/scrollViewLogin"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:fillViewport="true"
+        android:visibility="gone">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:orientation="vertical">
+
+            <TextView
+                fontPath="@string/font_exo_regular"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="20dp"
+                android:layout_marginEnd="20dp"
+                android:gravity="center"
+                android:padding="10dp"
+                android:text="Si vous n'avez pas encore de compte, alors nous en créerons un à la connexion."
+                android:textColor="@color/cg_grey_light" />
+
+            <EditText
+                android:id="@+id/editTextLoginEmail"
+                fontPath="@string/font_exo_regular"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="20dp"
+                android:layout_marginEnd="20dp"
+                android:hint="Email"
+                android:inputType="textEmailAddress"
+                android:padding="10dp"
+                android:textColor="@color/cg_grey_light"
+                android:textColorHint="@color/cg_grey_dark" />
+
+            <EditText
+                android:id="@+id/editTextLoginPassword"
+                fontPath="@string/font_exo_regular"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="20dp"
+                android:layout_marginTop="20dp"
+                android:layout_marginEnd="20dp"
+                android:hint="Mot de passe"
+                android:inputType="textPassword"
+                android:padding="10dp"
+                android:textColor="@color/cg_grey_light"
+                android:textColorHint="@color/cg_grey_dark" />
+
+            <br.com.simplepass.loading_button_lib.customViews.CircularProgressButton
+                android:id="@+id/buttonLoginConnect"
+                fontPath="@string/font_exo_regular"
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:layout_marginStart="20dp"
+                android:layout_marginTop="20dp"
+                android:layout_marginEnd="20dp"
+                android:background="@drawable/selector_button_background_blue"
+                android:text="Se connecter"
+                android:textColor="@color/cg_grey_light"
+                app:finalCornerAngle="8dp"
+                app:initialCornerAngle="8dp"
+                app:spinning_bar_color="#FFF"
+                app:spinning_bar_padding="6dp"
+                app:spinning_bar_width="4dp" />
+
+        </LinearLayout>
+    </ScrollView>
+</FrameLayout>

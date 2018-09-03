@@ -1,0 +1,33 @@
+<resources>
+
+    <color name="colorPrimary">@color/cg_grey_dark</color>
+    <color name="colorPrimaryDark">@color/cg_grey_dark_dark</color>
+    <color name="colorAccent">@color/cg_grey_dark</color>
+
+    <!-- Beautiful colors -->
+    <color name="cg_yellow">#FFCE54</color>
+    <color name="cg_yellow_dark">#F6BB42</color>
+    <color name="cg_orange">#FC6E51</color>
+    <color name="cg_orange_dark">#E9573F</color>
+    <color name="cg_blue_sky">#4FC1E9</color>
+    <color name="cg_blue_sky_dark">#3BAFDA</color>
+    <color name="cg_green">#A0D468</color>
+    <color name="cg_green_dark">#8CC152</color>
+    <color name="cg_mint">#48CFAD</color>
+    <color name="cg_mint_dark">#37BC9B</color>
+    <color name="cg_red">#ED5565</color>
+    <color name="cg_red_dark">#DA4453</color>
+    <color name="cg_pink">#EC87C0</color>
+    <color name="cg_pink_dark">#D770AD</color>
+    <color name="cg_purple">#AC92EC</color>
+    <color name="cg_purple_dark">#967ADC</color>
+    <color name="cg_blue">#5D9CEC</color>
+    <color name="cg_blue_dark">#4A89DC</color>
+    <color name="cg_grey_light">#F5F7FA</color>
+    <color name="cg_grey_light_dark">#E6E9ED</color>
+    <color name="cg_grey_medium">#CCD1D9</color>
+    <color name="cg_grey_medium_dark">#AAB2BD</color>
+    <color name="cg_grey_dark">#656D78</color>
+    <color name="cg_grey_dark_light">#4d545e</color>
+    <color name="cg_grey_dark_dark">#434A54</color>
+</resources>
