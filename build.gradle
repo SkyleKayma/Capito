@@ -12,10 +12,9 @@ buildscript {
     }
 
     dependencies {
-        classpath 'com.android.tools.build:gradle:3.3.0-alpha08'
+        classpath 'com.android.tools.build:gradle:3.3.0-alpha11'
         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
-        classpath 'io.realm:realm-gradle-plugin:5.1.0'
-        classpath 'fr.openium:resgen-plugin:1.6.1'
+        classpath 'fr.openium:resgen-plugin:1.6.3'
         classpath 'fr.openium:version-plugin:1.2'
         classpath 'io.fabric.tools:gradle:1.25.4'
         classpath 'com.google.gms:google-services:4.0.1'

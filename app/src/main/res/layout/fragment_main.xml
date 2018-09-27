@@ -14,7 +14,6 @@
 
         <EditText
             android:id="@+id/editTextSearchGame"
-            fontPath="@string/font_exo_regular"
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_marginStart="5dp"

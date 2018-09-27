@@ -16,7 +16,6 @@
 
         <TextView
             android:id="@+id/textViewGameName"
-            fontPath="@string/font_exo_regular"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
@@ -27,7 +26,6 @@
 
         <TextView
             android:id="@+id/textViewNbPlayers"
-            fontPath="@string/font_exo_regular"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="10dp"

@@ -1,6 +1,5 @@
 <resources>
-    <string name="app_name">Template</string>
-    <string name="url_prod" translatable="false">CardGame Release</string>
+    <string name="app_name">Capito</string>
 
     <!-- FONTS -->
     <string name="font_exo_bold">fonts/Exo2-Bold.ttf</string>
@@ -8,4 +7,25 @@
     <string name="font_exo_light">fonts/Exo2-Light.ttf</string>
     <string name="font_exo_medium">fonts/Exo2-Medium.ttf</string>
     <string name="font_exo_regular">fonts/Exo2-Regular.ttf</string>
+
+    <!-- LOGIN -->
+    <string name="login_screen_title">Connexion</string>
+    <string name="login_no_account_creation_pending">"Vous n'avez pas de compte, création en cours…"</string>
+    <string name="login_account_creation_failed">Création de compte impossible</string>
+
+    <!-- SET PSEUDO -->
+    <string name="set_pseudo_screen_title">Choix de pseudo</string>
+    <string name="set_pseudo_account_creation_successful">Création de compte réussie</string>
+    <string name="set_pseudo_account_creation_failed">Création de compte impossible</string>
+
+    <!-- HOME -->
+    <string name="home_screen_title">Liste des parties</string>
+    <string name="home_cant_get_game_list">Récupération des parties impossible</string>
+    <string name="home_nb_players_format">%d/%d</string>
+
+    <!-- CREATE GAME -->
+    <string name="create_game_screen_title">Créer une partie</string>
+    <string name="create_game_creation_successful">La partie a été crée</string>
+    <string name="create_game_creation_failed">Impossible de créer la partie</string>
+
 </resources>

@@ -17,7 +17,6 @@
         android:orientation="vertical">
 
         <TextView
-            fontPath="@string/font_exo_regular"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginStart="20dp"
@@ -29,7 +28,6 @@
 
         <EditText
             android:id="@+id/editTextSetPseudo"
-            fontPath="@string/font_exo_regular"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginStart="20dp"
@@ -42,7 +40,6 @@
 
         <br.com.simplepass.loading_button_lib.customViews.CircularProgressButton
             android:id="@+id/buttonSetPseudo"
-            fontPath="@string/font_exo_regular"
             android:layout_width="match_parent"
             android:layout_height="40dp"
             android:layout_marginStart="20dp"
