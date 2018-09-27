@@ -1,17 +1,17 @@
 package fr.skyle.capito.fragment
 
 import android.os.Bundle
-import android.widget.LinearLayout
-import android.widget.TextView
-import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.ValueEventListener
+import fr.openium.kotlintools.ext.gone
+import fr.openium.kotlintools.ext.show
+import fr.skyle.capito.KEY_GAME_ID
 import fr.skyle.capito.R
-import io.reactivex.disposables.CompositeDisposable
-import io.realm.Realm
-import org.jetbrains.annotations.Nullable
+import fr.skyle.capito.TABLE_GAMES
+import fr.skyle.capito.TABLE_PLAYERS
+import fr.skyle.capito.model.Game
+import fr.skyle.capito.model.GamePlayer
+import kotlinx.android.synthetic.main.fragment_game.*
 import timber.log.Timber
-import java.util.*
-import kotlin.jvm.internal.Intrinsics
 
 class FragmentGame : AbstractFragmentFirebase() {
 
@@ -22,282 +22,182 @@ class FragmentGame : AbstractFragmentFirebase() {
         const val POSITION_TOP = 0
     }
 
-    private val gameId: String? = ""
+    private var gameId: String? = ""
     private val listPseudoListeners = ArrayList<ValueEventListener>()
 
     override val layoutId = R.layout.fragment_game
 
-    public void onActivityCreated(@Nullable Bundle savedInstanceState)
-    {
-        super.onActivityCreated(savedInstanceState);
-        if (getArguments() != null) {
-            Bundle arguments = getArguments ();
-            if (arguments == null) {
-                Intrinsics.throwNpe();
-            }
-            this.gameId = arguments.getString(ConstantsKt.KEY_GAME_ID);
-            if (this.gameId != null) {
-                loadPlayers();
+    override fun onActivityCreated(savedInstanceState: Bundle?) {
+        super.onActivityCreated(savedInstanceState)
+        if (arguments != null) {
+            gameId = arguments?.getString(KEY_GAME_ID)
+            if (gameId != null) {
+                loadPlayers()
             }
         }
     }
 
-    private final void loadPlayers ()
-    {
-        CompositeDisposable oneTimeDisposables = getOneTimeDisposables ();
-        Realm realm = getRealm ();
-        if (realm == null) {
-            Intrinsics.throwNpe();
-        }
-        oneTimeDisposables.add(realm.where(Game.class).equalTo("idGame", this.gameId).findAll().asFlowable().subscribe(new FragmentGame $loadPlayers$2(this), FragmentGame$loadPlayers$3.INSTANCE));
-        FragmentGame$loadPlayers$event$1 event = new FragmentGame$loadPlayers$event$1(this);
-        DatabaseReference mDatabase = getMDatabase ();
-        if (mDatabase != null) {
-            mDatabase = mDatabase.child("games");
-            if (mDatabase != null) {
-                String str = this.gameId;
-                if (str == null) {
-                    Intrinsics.throwNpe();
+    private fun loadPlayers() {
+        disposables.add(
+            realm.where(
+                Game.class).equalTo("idGame", this.gameId).findAll().asFlowable().subscribe({
+                    new FragmentGame $loadPlayers$2(this)
+                }, {
+                    FragmentGame$loadPlayers$3.INSTANCE)
+                })
+            )
+                    FragmentGame $loadPlayers$event$1 event = new FragmentGame$loadPlayers$event$1(this)
+        mDbRef?.child(TABLE_GAMES)?.child(gameId ?: "")?.child(TABLE_PLAYERS)?.addValueEventListener(event)
+    }
+
+
+    private fun changeDisplayOfGame(playersList: ArrayList<GamePlayer>) {
+        if (playersList.isNotEmpty()) {
+            when (playersList.count()) {
+                1 -> {
+                    loadOnePlayer(playersList)
                 }
-                mDatabase = mDatabase.child(str);
-                if (mDatabase != null) {
-                    mDatabase = mDatabase.child("players");
-                    if (mDatabase != null) {
-                        mDatabase.addValueEventListener(event);
-                    }
+                2 -> {
+                    loadTwoPlayers(playersList)
+                }
+                3 -> {
+                    loadThreePlayers(playersList)
+                }
+                4 -> {
+                    loadFourPlayers(playersList)
+                }
+                else -> {
+                    Timber.w("Impossible de charger la partie si le nombre de joueurs n'est pas une valeur entre 1 et 4")
                 }
             }
         }
     }
 
-    private final void changeDisplayOfGame (RealmList<GamePlayer> playersList)
-    {
-        Realm realm = getRealm ();
-        List playersListCopy = realm != null ? realm.copyFromRealm(playersList) : null;
-        if (!(playersListCopy == null || (playersListCopy.isEmpty() ^ 1) == 0)) {
-        switch(playersList.size()) {
-            case 1:
-            loadOnePlayer(playersListCopy);
-            break;
-            case 2:
-            loadTwoPlayers(playersListCopy);
-            break;
-            case 3:
-            loadThreePlayers(playersListCopy);
-            break;
-            case 4:
-            loadFourPlayers(playersListCopy);
-            break;
-            default:
-            Timber.w("Impossible de charger la partie si le nombre de joueurs n'est pas une valeur entre 1 et 4", new Object [0]);
-            break;
-        }
-    }
+    private fun loadOnePlayer(playerList: ArrayList<GamePlayer>) {
+        linearLayoutTopPlayer.gone()
+        linearLayoutLeftPlayer.gone()
+        linearLayoutRightPlayer.gone()
+        textViewTopPlayer.gone()
+        textViewLeftPlayer.gone()
+        textViewRightPlayer.gone()
+        linearLayoutBotPlayer.show()
+        textViewBotPlayer.show()
+
+        setPlayerName(playerList[0].idPlayer ?: "", 1)
     }
 
-    private final void loadOnePlayer (List<GamePlayer> playerList)
-    {
-        LinearLayout linearLayout =(LinearLayout) _ $_findCachedViewById(fr.skyle.cardgame.R.id.linearLayoutTopPlayer);
-        Intrinsics.checkExpressionValueIsNotNull(linearLayout, "linearLayoutTopPlayer");
-        ViewExtKt.gone(linearLayout);
-        linearLayout = (LinearLayout) _ $_findCachedViewById(fr.skyle.cardgame.R.id.linearLayoutLeftPlayer);
-        Intrinsics.checkExpressionValueIsNotNull(linearLayout, "linearLayoutLeftPlayer");
-        ViewExtKt.gone(linearLayout);
-        linearLayout = (LinearLayout) _ $_findCachedViewById(fr.skyle.cardgame.R.id.linearLayoutRightPlayer);
-        Intrinsics.checkExpressionValueIsNotNull(linearLayout, "linearLayoutRightPlayer");
-        ViewExtKt.gone(linearLayout);
-        TextView textView =(TextView) _ $_findCachedViewById(fr.skyle.cardgame.R.id.textViewTopPlayer);
-        Intrinsics.checkExpressionValueIsNotNull(textView, "textViewTopPlayer");
-        ViewExtKt.gone(textView);
-        textView = (TextView) _ $_findCachedViewById(fr.skyle.cardgame.R.id.textViewLeftPlayer);
-        Intrinsics.checkExpressionValueIsNotNull(textView, "textViewLeftPlayer");
-        ViewExtKt.gone(textView);
-        textView = (TextView) _ $_findCachedViewById(fr.skyle.cardgame.R.id.textViewRightPlayer);
-        Intrinsics.checkExpressionValueIsNotNull(textView, "textViewRightPlayer");
-        ViewExtKt.gone(textView);
-        linearLayout = (LinearLayout) _ $_findCachedViewById(fr.skyle.cardgame.R.id.linearLayoutBotPlayer);
-        Intrinsics.checkExpressionValueIsNotNull(linearLayout, "linearLayoutBotPlayer");
-        ViewExtKt.show(linearLayout);
-        textView = (TextView) _ $_findCachedViewById(fr.skyle.cardgame.R.id.textViewBotPlayer);
-        Intrinsics.checkExpressionValueIsNotNull(textView, "textViewBotPlayer");
-        ViewExtKt.show(textView);
-        setPlayerName(((GamePlayer) playerList . get (0)).getIdPlayer(), 1);
-    }
+    private fun loadTwoPlayers(playerList: ArrayList<GamePlayer>) {
+        linearLayoutLeftPlayer.gone()
+        linearLayoutRightPlayer.gone()
+        textViewLeftPlayer.gone()
+        textViewRightPlayer.gone()
+        linearLayoutBotPlayer.show()
+        textViewBotPlayer.show()
+        linearLayoutTopPlayer.show()
+        textViewTopPlayer.show()
 
-    private final void loadTwoPlayers (List<GamePlayer> playerList)
-    {
-        LinearLayout linearLayout =(LinearLayout) _ $_findCachedViewById(fr.skyle.cardgame.R.id.linearLayoutLeftPlayer);
-        Intrinsics.checkExpressionValueIsNotNull(linearLayout, "linearLayoutLeftPlayer");
-        ViewExtKt.gone(linearLayout);
-        linearLayout = (LinearLayout) _ $_findCachedViewById(fr.skyle.cardgame.R.id.linearLayoutRightPlayer);
-        Intrinsics.checkExpressionValueIsNotNull(linearLayout, "linearLayoutRightPlayer");
-        ViewExtKt.gone(linearLayout);
-        TextView textView =(TextView) _ $_findCachedViewById(fr.skyle.cardgame.R.id.textViewLeftPlayer);
-        Intrinsics.checkExpressionValueIsNotNull(textView, "textViewLeftPlayer");
-        ViewExtKt.gone(textView);
-        textView = (TextView) _ $_findCachedViewById(fr.skyle.cardgame.R.id.textViewRightPlayer);
-        Intrinsics.checkExpressionValueIsNotNull(textView, "textViewRightPlayer");
-        ViewExtKt.gone(textView);
-        linearLayout = (LinearLayout) _ $_findCachedViewById(fr.skyle.cardgame.R.id.linearLayoutBotPlayer);
-        Intrinsics.checkExpressionValueIsNotNull(linearLayout, "linearLayoutBotPlayer");
-        ViewExtKt.show(linearLayout);
-        textView = (TextView) _ $_findCachedViewById(fr.skyle.cardgame.R.id.textViewBotPlayer);
-        Intrinsics.checkExpressionValueIsNotNull(textView, "textViewBotPlayer");
-        ViewExtKt.show(textView);
-        linearLayout = (LinearLayout) _ $_findCachedViewById(fr.skyle.cardgame.R.id.linearLayoutTopPlayer);
-        Intrinsics.checkExpressionValueIsNotNull(linearLayout, "linearLayoutTopPlayer");
-        ViewExtKt.show(linearLayout);
-        textView = (TextView) _ $_findCachedViewById(fr.skyle.cardgame.R.id.textViewTopPlayer);
-        Intrinsics.checkExpressionValueIsNotNull(textView, "textViewTopPlayer");
-        ViewExtKt.show(textView);
-        GamePlayer mainPlayer = null;
-        for (GamePlayer player : playerList) {
-        if (Intrinsics.areEqual(player.getLeader(), Boolean.valueOf(true))) {
-            mainPlayer = player;
-            playerList.remove(player);
-            break;
+        var mainPlayer: GamePlayer? = null
+        for (player in playerList) {
+            if (player.leader == true) {
+                mainPlayer = player
+                playerList.remove(player)
+                break
+            }
         }
-    }
+
         if (mainPlayer == null) {
-            mainPlayer = (GamePlayer) playerList . get (0);
-            playerList.remove(0);
+            mainPlayer = playerList[0]
+            playerList.removeAt(0)
         }
-        setPlayerName(mainPlayer.getIdPlayer(), 1);
-        setPlayerName(((GamePlayer) playerList . get (0)).getIdPlayer(), 0);
+
+        setPlayerName(mainPlayer.idPlayer ?: "", POSITION_BOT)
+        setPlayerName(playerList[0].idPlayer ?: "", POSITION_TOP)
     }
 
-    private final void loadThreePlayers (List<GamePlayer> playerList)
-    {
-        LinearLayout linearLayout =(LinearLayout) _ $_findCachedViewById(fr.skyle.cardgame.R.id.linearLayoutTopPlayer);
-        Intrinsics.checkExpressionValueIsNotNull(linearLayout, "linearLayoutTopPlayer");
-        ViewExtKt.gone(linearLayout);
-        TextView textView =(TextView) _ $_findCachedViewById(fr.skyle.cardgame.R.id.textViewTopPlayer);
-        Intrinsics.checkExpressionValueIsNotNull(textView, "textViewTopPlayer");
-        ViewExtKt.gone(textView);
-        linearLayout = (LinearLayout) _ $_findCachedViewById(fr.skyle.cardgame.R.id.linearLayoutBotPlayer);
-        Intrinsics.checkExpressionValueIsNotNull(linearLayout, "linearLayoutBotPlayer");
-        ViewExtKt.show(linearLayout);
-        textView = (TextView) _ $_findCachedViewById(fr.skyle.cardgame.R.id.textViewBotPlayer);
-        Intrinsics.checkExpressionValueIsNotNull(textView, "textViewBotPlayer");
-        ViewExtKt.show(textView);
-        linearLayout = (LinearLayout) _ $_findCachedViewById(fr.skyle.cardgame.R.id.linearLayoutLeftPlayer);
-        Intrinsics.checkExpressionValueIsNotNull(linearLayout, "linearLayoutLeftPlayer");
-        ViewExtKt.show(linearLayout);
-        textView = (TextView) _ $_findCachedViewById(fr.skyle.cardgame.R.id.textViewLeftPlayer);
-        Intrinsics.checkExpressionValueIsNotNull(textView, "textViewLeftPlayer");
-        ViewExtKt.show(textView);
-        linearLayout = (LinearLayout) _ $_findCachedViewById(fr.skyle.cardgame.R.id.linearLayoutRightPlayer);
-        Intrinsics.checkExpressionValueIsNotNull(linearLayout, "linearLayoutRightPlayer");
-        ViewExtKt.show(linearLayout);
-        textView = (TextView) _ $_findCachedViewById(fr.skyle.cardgame.R.id.textViewRightPlayer);
-        Intrinsics.checkExpressionValueIsNotNull(textView, "textViewRightPlayer");
-        ViewExtKt.show(textView);
-        GamePlayer mainPlayer = null;
-        for (GamePlayer player : playerList) {
-        if (Intrinsics.areEqual(player.getLeader(), Boolean.valueOf(true))) {
-            mainPlayer = player;
-            playerList.remove(player);
-            break;
-        }
-    }
-        if (mainPlayer == null) {
-            mainPlayer = (GamePlayer) playerList . get (0);
-            playerList.remove(0);
-        }
-        setPlayerName(mainPlayer.getIdPlayer(), 1);
-        setPlayerName(((GamePlayer) playerList . get (0)).getIdPlayer(), 2);
-        setPlayerName(((GamePlayer) playerList . get (1)).getIdPlayer(), 3);
-    }
+    private fun loadThreePlayers(playerList: ArrayList<GamePlayer>) {
+        linearLayoutTopPlayer.gone()
+        textViewTopPlayer.gone()
+        linearLayoutBotPlayer.show()
+        textViewBotPlayer.show()
+        linearLayoutLeftPlayer.show()
+        textViewLeftPlayer.show()
+        linearLayoutRightPlayer.show()
+        textViewRightPlayer.show()
 
-    private final void loadFourPlayers (List<GamePlayer> playerList)
-    {
-        LinearLayout linearLayout =(LinearLayout) _ $_findCachedViewById(fr.skyle.cardgame.R.id.linearLayoutBotPlayer);
-        Intrinsics.checkExpressionValueIsNotNull(linearLayout, "linearLayoutBotPlayer");
-        ViewExtKt.show(linearLayout);
-        TextView textView =(TextView) _ $_findCachedViewById(fr.skyle.cardgame.R.id.textViewBotPlayer);
-        Intrinsics.checkExpressionValueIsNotNull(textView, "textViewBotPlayer");
-        ViewExtKt.show(textView);
-        linearLayout = (LinearLayout) _ $_findCachedViewById(fr.skyle.cardgame.R.id.linearLayoutLeftPlayer);
-        Intrinsics.checkExpressionValueIsNotNull(linearLayout, "linearLayoutLeftPlayer");
-        ViewExtKt.show(linearLayout);
-        textView = (TextView) _ $_findCachedViewById(fr.skyle.cardgame.R.id.textViewLeftPlayer);
-        Intrinsics.checkExpressionValueIsNotNull(textView, "textViewLeftPlayer");
-        ViewExtKt.show(textView);
-        linearLayout = (LinearLayout) _ $_findCachedViewById(fr.skyle.cardgame.R.id.linearLayoutRightPlayer);
-        Intrinsics.checkExpressionValueIsNotNull(linearLayout, "linearLayoutRightPlayer");
-        ViewExtKt.show(linearLayout);
-        textView = (TextView) _ $_findCachedViewById(fr.skyle.cardgame.R.id.textViewRightPlayer);
-        Intrinsics.checkExpressionValueIsNotNull(textView, "textViewRightPlayer");
-        ViewExtKt.show(textView);
-        linearLayout = (LinearLayout) _ $_findCachedViewById(fr.skyle.cardgame.R.id.linearLayoutTopPlayer);
-        Intrinsics.checkExpressionValueIsNotNull(linearLayout, "linearLayoutTopPlayer");
-        ViewExtKt.show(linearLayout);
-        textView = (TextView) _ $_findCachedViewById(fr.skyle.cardgame.R.id.textViewTopPlayer);
-        Intrinsics.checkExpressionValueIsNotNull(textView, "textViewTopPlayer");
-        ViewExtKt.show(textView);
-        GamePlayer mainPlayer = null;
-        for (GamePlayer player : playerList) {
-        if (Intrinsics.areEqual(player.getLeader(), Boolean.valueOf(true))) {
-            mainPlayer = player;
-            playerList.remove(player);
-            break;
-        }
-    }
-        if (mainPlayer == null) {
-            mainPlayer = (GamePlayer) playerList . get (0);
-            playerList.remove(0);
-        }
-        setPlayerName(mainPlayer.getIdPlayer(), 1);
-        setPlayerName(((GamePlayer) playerList . get (0)).getIdPlayer(), 2);
-        setPlayerName(((GamePlayer) playerList . get (1)).getIdPlayer(), 3);
-        setPlayerName(((GamePlayer) playerList . get (2)).getIdPlayer(), 0);
-    }
-
-    private final void setPlayerName (String idPlayer, int position)
-    {
-        FragmentGame$setPlayerName$listenerNbPlayersInGame$1 listenerNbPlayersInGame = new FragmentGame$setPlayerName$listenerNbPlayersInGame$1(this, position);
-        this.listPseudoListeners.add(listenerNbPlayersInGame);
-        DatabaseReference mDatabase = getMDatabase ();
-        if (mDatabase != null) {
-            mDatabase = mDatabase.child("players");
-            if (mDatabase != null) {
-                if (idPlayer == null) {
-                    Intrinsics.throwNpe();
-                }
-                mDatabase = mDatabase.child(idPlayer);
-                if (mDatabase != null) {
-                    mDatabase.addValueEventListener(listenerNbPlayersInGame);
-                }
+        var mainPlayer: GamePlayer? = null
+        for (player in playerList) {
+            if (player.leader == true) {
+                mainPlayer = player
+                playerList.remove(player)
+                break
             }
         }
+
+        if (mainPlayer == null) {
+            mainPlayer = playerList[0]
+            playerList.removeAt(0)
+        }
+
+        setPlayerName(mainPlayer.idPlayer ?: "", POSITION_BOT)
+        setPlayerName(playerList[0].idPlayer ?: "", POSITION_LEFT)
+        setPlayerName(playerList[1].idPlayer ?: "", POSITION_RIGHT)
     }
 
-    private final void setPlayerNameAtRightPosition (String playerName, int position)
-    {
-        TextView textView;
-        switch(position) {
-            case 0:
-            textView = (TextView) _ $_findCachedViewById(fr.skyle.cardgame.R.id.textViewTopPlayer);
-            Intrinsics.checkExpressionValueIsNotNull(textView, "textViewTopPlayer");
-            textView.setText(playerName);
-            break;
-            case 1:
-            textView = (TextView) _ $_findCachedViewById(fr.skyle.cardgame.R.id.textViewBotPlayer);
-            Intrinsics.checkExpressionValueIsNotNull(textView, "textViewBotPlayer");
-            textView.setText(playerName);
-            break;
-            case 2:
-            textView = (TextView) _ $_findCachedViewById(fr.skyle.cardgame.R.id.textViewLeftPlayer);
-            Intrinsics.checkExpressionValueIsNotNull(textView, "textViewLeftPlayer");
-            textView.setText(playerName);
-            break;
-            case 3:
-            textView = (TextView) _ $_findCachedViewById(fr.skyle.cardgame.R.id.textViewRightPlayer);
-            Intrinsics.checkExpressionValueIsNotNull(textView, "textViewRightPlayer");
-            textView.setText(playerName);
-            break;
-            default:
-            break;
+    private fun loadFourPlayers(playerList: ArrayList<GamePlayer>) {
+        linearLayoutBotPlayer.show()
+        textViewBotPlayer.show()
+        linearLayoutLeftPlayer.show()
+        textViewLeftPlayer.show()
+        linearLayoutRightPlayer.show()
+        textViewRightPlayer.show()
+        linearLayoutTopPlayer.show()
+        textViewTopPlayer.show()
+
+        var mainPlayer: GamePlayer? = null
+        for (player in playerList) {
+            if (player.leader == true) {
+                mainPlayer = player
+                playerList.remove(player)
+                break
+            }
+        }
+
+        if (mainPlayer == null) {
+            mainPlayer = playerList[0]
+            playerList.removeAt(0)
+        }
+
+        setPlayerName(mainPlayer.idPlayer ?: "", POSITION_BOT)
+        setPlayerName(playerList[0].idPlayer ?: "", POSITION_LEFT)
+        setPlayerName(playerList[1].idPlayer ?: "", POSITION_RIGHT)
+        setPlayerName(playerList[2].idPlayer ?: "", POSITION_TOP)
+    }
+
+    private fun setPlayerName(idPlayer: String, position: Int) {
+        FragmentGame$setPlayerName$listenerNbPlayersInGame$1 listenerNbPlayersInGame = new FragmentGame$setPlayerName$listenerNbPlayersInGame$1(this, position)
+
+        listPseudoListeners.add(listenerNbPlayersInGame)
+
+        mDbRef?.child("players")?.child(idPlayer)?.addValueEventListener(listenerNbPlayersInGame)
+    }
+
+    private fun setPlayerNameAtRightPosition(playerName: String, position: Int) {
+        when (position) {
+            0 -> {
+                textViewTopPlayer.text = playerName
+            }
+            1 -> {
+                textViewBotPlayer.text = playerName
+            }
+            2 -> {
+                textViewLeftPlayer.text = playerName
+            }
+            3 -> {
+                textViewRightPlayer.text = playerName
+            }
+            else -> {
+
+            }
         }
     }
 }
