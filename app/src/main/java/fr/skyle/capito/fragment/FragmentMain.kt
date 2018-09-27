@@ -24,7 +24,7 @@ class FragmentMain : AbstractFragmentFirebase() {
     override val layoutId: Int
         get() = R.layout.fragment_main
 
-    private val gameList: ArrayList<Game> = arrayListOf()
+    private val gameList: MutableList<Game> = mutableListOf()
 
     // ---------------------------------------------------
     // --- LIFE CYCLE ---
@@ -105,7 +105,7 @@ class FragmentMain : AbstractFragmentFirebase() {
                 }))
     }
 
-    private fun getFilteredList(filter: String): ArrayList<Game> {
+    private fun getFilteredList(filter: String): MutableList<Game> {
         //Return each Game where the name contains the searched field
         val list = gameList.filter {
             it.name != null && it.name!!.toLowerCase().trim().contains(filter.toLowerCase().trim())
@@ -114,7 +114,7 @@ class FragmentMain : AbstractFragmentFirebase() {
         return if (filter.isEmpty()) {
             gameList
         } else {
-            arrayListOf<Game>().apply {
+            mutableListOf<Game>().apply {
                 addAll(list)
             }
         }

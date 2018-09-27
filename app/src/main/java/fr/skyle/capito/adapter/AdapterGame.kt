@@ -10,7 +10,7 @@ import fr.skyle.capito.R
 import fr.skyle.capito.model.Game
 import kotlinx.android.synthetic.main.item_game.view.*
 
-class AdapterGame(private val context: Context, var gameList: ArrayList<Game>,
+class AdapterGame(private val context: Context, var gameList: MutableList<Game>,
                   private val onGameClicked: ((String) -> Unit)? = null) : RecyclerView.Adapter<AdapterGame.GameViewHolder>() {
 
     companion object {

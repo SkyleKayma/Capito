@@ -1,17 +1,20 @@
 package fr.skyle.capito.fragment
 
 import android.os.Bundle
+import android.widget.Toast
+import com.google.firebase.database.DataSnapshot
+import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.ValueEventListener
 import fr.openium.kotlintools.ext.gone
 import fr.openium.kotlintools.ext.show
 import fr.skyle.capito.KEY_GAME_ID
 import fr.skyle.capito.R
 import fr.skyle.capito.TABLE_GAMES
-import fr.skyle.capito.TABLE_PLAYERS
 import fr.skyle.capito.model.Game
 import fr.skyle.capito.model.GamePlayer
 import kotlinx.android.synthetic.main.fragment_game.*
 import timber.log.Timber
+
 
 class FragmentGame : AbstractFragmentFirebase() {
 
@@ -23,7 +26,7 @@ class FragmentGame : AbstractFragmentFirebase() {
     }
 
     private var gameId: String? = ""
-    private val listPseudoListeners = ArrayList<ValueEventListener>()
+    private val listPseudoListeners = mutableListOf<ValueEventListener>()
 
     override val layoutId = R.layout.fragment_game
 
@@ -38,20 +41,28 @@ class FragmentGame : AbstractFragmentFirebase() {
     }
 
     private fun loadPlayers() {
-        disposables.add(
-            realm.where(
-                Game.class).equalTo("idGame", this.gameId).findAll().asFlowable().subscribe({
-                    new FragmentGame $loadPlayers$2(this)
-                }, {
-                    FragmentGame$loadPlayers$3.INSTANCE)
-                })
-            )
-                    FragmentGame $loadPlayers$event$1 event = new FragmentGame$loadPlayers$event$1(this)
-        mDbRef?.child(TABLE_GAMES)?.child(gameId ?: "")?.child(TABLE_PLAYERS)?.addValueEventListener(event)
+//        for (listener in listPseudoListeners) {
+//            mDbRef!!.removeEventListener(listener)
+//        }
+
+        val listenerGame = object : ValueEventListener {
+            override fun onDataChange(dataSnapshot: DataSnapshot) {
+                val game = dataSnapshot.getValue(Game::class.java)
+                if (game != null) {
+                    changeDisplayOfGame(game.players?.values?.toMutableList() ?: mutableListOf())
+                }
+            }
+
+            override fun onCancelled(dataSnapshot: DatabaseError) {
+                Toast.makeText(context!!, getString(R.string.home_cant_get_game_list), Toast.LENGTH_SHORT).show()
+            }
+        }
+        valueEventListeners.add(listenerGame)
+        mDbRef?.child(TABLE_GAMES)?.child(gameId
+                ?: "")?.addValueEventListener(listenerGame)
     }
 
-
-    private fun changeDisplayOfGame(playersList: ArrayList<GamePlayer>) {
+    private fun changeDisplayOfGame(playersList: MutableList<GamePlayer>) {
         if (playersList.isNotEmpty()) {
             when (playersList.count()) {
                 1 -> {
@@ -73,7 +84,7 @@ class FragmentGame : AbstractFragmentFirebase() {
         }
     }
 
-    private fun loadOnePlayer(playerList: ArrayList<GamePlayer>) {
+    private fun loadOnePlayer(playerList: MutableList<GamePlayer>) {
         linearLayoutTopPlayer.gone()
         linearLayoutLeftPlayer.gone()
         linearLayoutRightPlayer.gone()
@@ -86,7 +97,7 @@ class FragmentGame : AbstractFragmentFirebase() {
         setPlayerName(playerList[0].idPlayer ?: "", 1)
     }
 
-    private fun loadTwoPlayers(playerList: ArrayList<GamePlayer>) {
+    private fun loadTwoPlayers(playerList: MutableList<GamePlayer>) {
         linearLayoutLeftPlayer.gone()
         linearLayoutRightPlayer.gone()
         textViewLeftPlayer.gone()
@@ -114,7 +125,7 @@ class FragmentGame : AbstractFragmentFirebase() {
         setPlayerName(playerList[0].idPlayer ?: "", POSITION_TOP)
     }
 
-    private fun loadThreePlayers(playerList: ArrayList<GamePlayer>) {
+    private fun loadThreePlayers(playerList: MutableList<GamePlayer>) {
         linearLayoutTopPlayer.gone()
         textViewTopPlayer.gone()
         linearLayoutBotPlayer.show()
@@ -143,7 +154,7 @@ class FragmentGame : AbstractFragmentFirebase() {
         setPlayerName(playerList[1].idPlayer ?: "", POSITION_RIGHT)
     }
 
-    private fun loadFourPlayers(playerList: ArrayList<GamePlayer>) {
+    private fun loadFourPlayers(playerList: MutableList<GamePlayer>) {
         linearLayoutBotPlayer.show()
         textViewBotPlayer.show()
         linearLayoutLeftPlayer.show()
@@ -174,10 +185,26 @@ class FragmentGame : AbstractFragmentFirebase() {
     }
 
     private fun setPlayerName(idPlayer: String, position: Int) {
-        FragmentGame$setPlayerName$listenerNbPlayersInGame$1 listenerNbPlayersInGame = new FragmentGame$setPlayerName$listenerNbPlayersInGame$1(this, position)
+        val listenerNbPlayersInGame = object : ValueEventListener {
+            override fun onDataChange(dataSnapshot: DataSnapshot) {
+                for (item in dataSnapshot.children) {
+                    if (item.key == "pseudo") {
+                        var playerName = item.getValue(String::class.java)
+                        if (playerName == null) {
+                            playerName = ""
+                        }
 
+                        setPlayerNameAtRightPosition(playerName, position)
+                        return
+                    }
+                }
+            }
+
+            override fun onCancelled(dataSnapshot: DatabaseError) {
+                Toast.makeText(context!!, getString(R.string.home_cant_get_player_list), Toast.LENGTH_SHORT).show()
+            }
+        }
         listPseudoListeners.add(listenerNbPlayersInGame)
-
         mDbRef?.child("players")?.child(idPlayer)?.addValueEventListener(listenerNbPlayersInGame)
     }
 

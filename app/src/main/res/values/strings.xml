@@ -21,6 +21,7 @@
     <!-- HOME -->
     <string name="home_screen_title">Liste des parties</string>
     <string name="home_cant_get_game_list">Récupération des parties impossible</string>
+    <string name="home_cant_get_player_list">Récupération des joueurs impossible</string>
     <string name="home_nb_players_format">%d/%d</string>
 
     <!-- CREATE GAME -->

@@ -16,8 +16,8 @@ abstract class AbstractFragmentFirebase : AbstractFragment() {
 
     protected var mAuth: FirebaseAuth? = null
     protected var mDbRef: DatabaseReference? = null
-    protected var valueEventListeners = arrayListOf<ValueEventListener>()
-    protected var childEventListeners = arrayListOf<ChildEventListener>()
+    protected var valueEventListeners = mutableListOf<ValueEventListener>()
+    protected var childEventListeners = mutableListOf<ChildEventListener>()
 
     // =================================================================================================================
     // Life cycle
