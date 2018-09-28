@@ -1,4 +1,4 @@
-# CardGame
+# Capito
 
 Jeu de cartes Capito
 
