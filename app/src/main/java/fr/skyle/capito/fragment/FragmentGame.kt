@@ -21,17 +21,17 @@ import timber.log.Timber
 
 class FragmentGame : AbstractFragmentFirebase() {
 
+    override val layoutId = R.layout.fragment_game
+
+    private var gameId: String? = ""
+    private val listPseudoListeners = mutableListOf<ValueEventListener>()
+
     companion object {
         const val POSITION_TOP = 0
         const val POSITION_BOT = 1
         const val POSITION_LEFT = 2
         const val POSITION_RIGHT = 3
     }
-
-    private var gameId: String? = ""
-    private val listPseudoListeners = mutableListOf<ValueEventListener>()
-
-    override val layoutId = R.layout.fragment_game
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)

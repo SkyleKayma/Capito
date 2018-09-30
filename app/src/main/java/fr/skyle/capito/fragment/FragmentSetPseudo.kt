@@ -12,7 +12,6 @@ import fr.skyle.capito.TABLE_PLAYERS
 import fr.skyle.capito.activity.ActivityMain
 import fr.skyle.capito.ext.hasNetwork
 import fr.skyle.capito.model.User
-import kotlinx.android.synthetic.main.fragment_login.*
 import kotlinx.android.synthetic.main.fragment_set_pseudo.*
 import timber.log.Timber
 
@@ -56,7 +55,7 @@ class FragmentSetPseudo : AbstractFragmentFirebase() {
     // ---------------------------------------------------
 
     private fun checkIfPseudoIsCorrect(): Boolean {
-        if (editTextLoginEmail.textTrimmed() == "") {
+        if (editTextSetPseudo.textTrimmed() == "") {
             Toast.makeText(context, getString(R.string.set_pseudo_please_fill_pseudo), Toast.LENGTH_SHORT).show()
             return false
         }
@@ -65,7 +64,7 @@ class FragmentSetPseudo : AbstractFragmentFirebase() {
 
     private fun createAccount() {
         if (context?.hasNetwork == true) {
-            mAuth!!.createUserWithEmailAndPassword(editTextLoginEmail.textTrimmed(), editTextLoginPassword.textTrimmed())
+            mAuth!!.createUserWithEmailAndPassword(email!!, password!!)
                 .addOnCompleteListener(activity!!) { task ->
                     if (task.isSuccessful) {
                         Timber.d("createUserWithEmail: SUCCESS")

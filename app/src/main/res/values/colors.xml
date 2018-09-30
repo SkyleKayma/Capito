@@ -2,7 +2,7 @@
 
     <color name="colorPrimary">@color/ca_orange</color>
     <color name="colorPrimaryDark">@color/ca_blue</color>
-    <color name="colorAccent">@color/ca_ivoiry</color>
+    <color name="colorAccent">@color/ca_orange</color>
 
     <!-- Beautiful colors -->
     <color name="cg_yellow">#FFCE54</color>

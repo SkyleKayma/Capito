@@ -45,7 +45,7 @@ class FragmentLogin : AbstractFragmentFirebase() {
                 Toast.makeText(context, getString(R.string.login_please_fill_email), Toast.LENGTH_SHORT).show()
                 return false
             }
-            editTextLoginEmail.textTrimmed().matches(Regex(EMAIL_REGEX)) -> {
+            !editTextLoginEmail.textTrimmed().matches(Regex(EMAIL_REGEX)) -> {
                 Toast.makeText(context, getString(R.string.login_email_format_invalid), Toast.LENGTH_SHORT).show()
                 return false
             }
@@ -113,11 +113,11 @@ class FragmentLogin : AbstractFragmentFirebase() {
     // ---------------------------------------------------
 
     private fun goToSetPseudoPage() {
+        buttonLoginConnect.revertAnimation()
         startActivity<ActivitySetPseudo>(Bundle().apply {
             putString(KEY_USER_EMAIL, editTextLoginEmail.textTrimmed())
             putString(KEY_USER_PASSWORD, editTextLoginPassword.textTrimmed())
         })
-        activity?.finish()
     }
 
     private fun goToMainPage() {
