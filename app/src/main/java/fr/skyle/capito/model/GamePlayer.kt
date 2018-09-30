@@ -1,3 +1,3 @@
 package fr.skyle.capito.model
 
-class GamePlayer(var idPlayer: String? = "", var leader: Boolean? = false)
+class GamePlayer(var idPlayer: String? = null, var leader: Boolean? = false)

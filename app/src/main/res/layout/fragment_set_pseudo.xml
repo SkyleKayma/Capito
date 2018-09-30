@@ -1,56 +1,56 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:fillViewport="true"
-    tools:ignore="MissingPrefix">
+    android:fillViewport="true">
 
-    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:app="http://schemas.android.com/apk/res-auto"
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:background="@color/cg_grey_dark_dark"
-        android:gravity="center"
+        android:background="@color/ca_blue"
+        android:gravity="center_horizontal"
         android:orientation="vertical">
 
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginStart="20dp"
-            android:layout_marginEnd="20dp"
+            android:layout_marginStart="24dp"
+            android:layout_marginEnd="24dp"
+            android:fontFamily="@font/default_font"
             android:padding="10dp"
-            android:text="Veuillez renseigner un pseudo:"
-            android:textColor="@color/cg_grey_light"
+            android:text="@string/set_pseudo_fill_pseudo"
+            android:textColor="@color/ca_ivoiry"
             android:textSize="16sp" />
 
         <EditText
             android:id="@+id/editTextSetPseudo"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginStart="20dp"
-            android:layout_marginEnd="20dp"
-            android:hint="Pseudo"
+            android:layout_marginStart="24dp"
+            android:layout_marginEnd="24dp"
+            android:fontFamily="@font/default_font"
+            android:hint="@string/generic_pseudo"
             android:inputType="text"
             android:padding="10dp"
-            android:textColor="@color/cg_grey_light"
-            android:textColorHint="@color/cg_grey_dark" />
+            android:textColor="@color/ca_ivoiry"
+            android:textColorHint="@color/ca_grey"
+            android:textSize="16sp" />
 
         <br.com.simplepass.loading_button_lib.customViews.CircularProgressButton
             android:id="@+id/buttonSetPseudo"
             android:layout_width="match_parent"
             android:layout_height="40dp"
-            android:layout_marginStart="20dp"
-            android:layout_marginTop="20dp"
-            android:layout_marginEnd="20dp"
-            android:background="@drawable/shape_button_background_blue"
-            android:text="Choisir ce pseudo"
-            android:textColor="@color/cg_grey_light"
+            android:layout_marginStart="24dp"
+            android:layout_marginTop="16dp"
+            android:layout_marginEnd="24dp"
+            android:background="@drawable/selector_button_background_orange"
+            android:fontFamily="@font/default_font"
+            android:text="@string/set_pseudo_choose_that_pseudo"
+            android:textColor="@color/ca_ivoiry"
             app:finalCornerAngle="8dp"
             app:initialCornerAngle="8dp"
-            app:spinning_bar_color="#FFF"
+            app:spinning_bar_color="@color/ca_ivoiry"
             app:spinning_bar_padding="6dp"
             app:spinning_bar_width="4dp" />
 

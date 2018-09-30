@@ -1,11 +1,41 @@
-*.iml
-.gradle
-/local.properties
-/.idea/caches/build_file_checksums.ser
-/.idea/libraries
-/.idea/modules.xml
-/.idea/workspace.xml
+# generated files
+
+bin/
+
+gen/
+
+# Local configuration file (sdk path, etc)
+
+local.properties
+
+# Log Files
+
+*.log
+
+# OSX files
+
 .DS_Store
-/build
-/captures
+
+# Gradle files
+
+.gradle/
+
+build/
+
+# Android Studio
+
+*.iml
+
+.idea
+
+# External native build folder generated in Android Studio 2.2 and later
+
 .externalNativeBuild
+
+# Android Studio captures folder
+
+captures/
+
+# Fabric files
+
+fabric.properties

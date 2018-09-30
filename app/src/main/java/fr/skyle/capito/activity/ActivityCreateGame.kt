@@ -7,9 +7,6 @@ import fr.skyle.capito.fragment.FragmentCreateGame
 
 class ActivityCreateGame : AbstractActivityFragment() {
 
-    override val layoutId: Int
-        get() = R.layout.container_toolbar
-
     override val showHomeAsUp: Boolean
         get() = true
 

@@ -1,11 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/cg_grey_dark_dark"
-    android:orientation="vertical"
-    tools:ignore="MissingPrefix">
+    android:background="@color/ca_blue"
+    android:orientation="vertical">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -16,28 +14,31 @@
             android:id="@+id/editTextSearchGame"
             android:layout_width="0dp"
             android:layout_height="match_parent"
-            android:layout_marginStart="5dp"
-            android:layout_marginEnd="5dp"
+            android:layout_marginStart="4dp"
+            android:layout_marginEnd="4dp"
             android:layout_weight="1"
             android:drawableStart="@drawable/ic_search"
             android:drawablePadding="10dp"
-            android:hint="Rechercher une partie"
+            android:fontFamily="@font/default_font"
+            android:hint="@string/home_find_game"
             android:inputType="text"
-            android:textColor="@color/cg_grey_light"
-            android:textColorHint="@color/cg_grey_light_dark" />
+            android:textColor="@color/ca_ivoiry"
+            android:textColorHint="@color/ca_grey"
+            android:textSize="16sp" />
 
-        <ImageButton
+        <Button
             android:id="@+id/buttonMainCreateGame"
-            android:layout_width="50dp"
-            android:layout_height="50dp"
-            android:layout_margin="5dp"
-            android:background="@null"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:layout_margin="8dp"
+            android:background="@drawable/selector_button_background_orange"
+            android:fontFamily="@font/default_font"
+            android:gravity="center"
             android:includeFontPadding="false"
-            android:scaleType="fitCenter"
-            android:src="@drawable/ic_plus"
             android:text="+"
-            android:textColor="@color/cg_grey_light"
-            android:textSize="40sp" />
+            android:textColor="@color/ca_ivoiry"
+            android:textSize="40sp"
+            android:textStyle="bold" />
     </LinearLayout>
 
     <LinearLayout
@@ -50,13 +51,16 @@
             android:id="@+id/recyclerViewGameList"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:layout_marginStart="8dp"
+            android:layout_marginEnd="8dp"
             android:visibility="gone" />
 
         <ProgressBar
             android:id="@+id/progressBarGameList"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="center" />
+            android:layout_gravity="center"
+            android:indeterminateTint="@color/ca_orange_light" />
 
         <LinearLayout
             android:id="@+id/linearLayoutEmptyView"
@@ -69,19 +73,20 @@
             <ImageView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="20dp"
+                android:layout_marginBottom="24dp"
                 android:src="@drawable/ic_no_content" />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="30dp"
-                android:layout_marginEnd="30dp"
+                android:layout_marginStart="32dp"
+                android:layout_marginEnd="32dp"
                 android:gravity="center"
-                android:text="Aucune partie n'est en cours pour le moment. Cette liste sera mise à jour dès qu'une nouvelle commencera."
+                android:text="@string/home_no_game"
                 android:textColor="@color/cg_grey_light" />
 
         </LinearLayout>
+
     </LinearLayout>
 
 </LinearLayout>

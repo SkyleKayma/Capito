@@ -4,5 +4,5 @@
     android:id="@+id/toolbar"
     android:layout_width="match_parent"
     android:layout_height="?attr/actionBarSize"
-    android:background="@color/cg_grey_dark_light"
-    app:titleTextColor="@color/cg_grey_light" />
+    android:background="@color/ca_blue"
+    app:titleTextColor="@color/ca_ivoiry" />

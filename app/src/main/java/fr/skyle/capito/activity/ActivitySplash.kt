@@ -3,17 +3,20 @@ package fr.skyle.capito.activity
 import android.os.Bundle
 import android.support.v4.app.Fragment
 import fr.skyle.capito.R
-import fr.skyle.capito.fragment.FragmentMain
+import fr.skyle.capito.fragment.FragmentSplash
 
-class ActivityMain : AbstractActivityFragment() {
+class ActivitySplash : AbstractActivityFragment() {
+
+    override val layoutId: Int
+        get() = R.layout.container_no_toolbar
 
     override fun getDefaultFragment(): Fragment? {
-        return FragmentMain()
+        return FragmentSplash()
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        supportActionBar?.title = getString(R.string.home_screen_title)
+        supportActionBar?.title = "Splash"
     }
 }

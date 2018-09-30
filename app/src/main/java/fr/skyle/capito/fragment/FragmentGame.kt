@@ -1,6 +1,7 @@
 package fr.skyle.capito.fragment
 
 import android.os.Bundle
+import android.support.v7.app.AppCompatActivity
 import android.widget.Toast
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
@@ -10,8 +11,10 @@ import fr.openium.kotlintools.ext.show
 import fr.skyle.capito.KEY_GAME_ID
 import fr.skyle.capito.R
 import fr.skyle.capito.TABLE_GAMES
+import fr.skyle.capito.TABLE_PLAYERS
 import fr.skyle.capito.model.Game
 import fr.skyle.capito.model.GamePlayer
+import fr.skyle.capito.model.User
 import kotlinx.android.synthetic.main.fragment_game.*
 import timber.log.Timber
 
@@ -19,10 +22,10 @@ import timber.log.Timber
 class FragmentGame : AbstractFragmentFirebase() {
 
     companion object {
+        const val POSITION_TOP = 0
         const val POSITION_BOT = 1
         const val POSITION_LEFT = 2
         const val POSITION_RIGHT = 3
-        const val POSITION_TOP = 0
     }
 
     private var gameId: String? = ""
@@ -35,34 +38,62 @@ class FragmentGame : AbstractFragmentFirebase() {
         if (arguments != null) {
             gameId = arguments?.getString(KEY_GAME_ID)
             if (gameId != null) {
-                loadPlayers()
+                initAllListeners()
+            } else {
+                activity?.finish()
             }
+        } else {
+            activity?.finish()
         }
     }
 
-    private fun loadPlayers() {
-//        for (listener in listPseudoListeners) {
-//            mDbRef!!.removeEventListener(listener)
-//        }
-
-        val listenerGame = object : ValueEventListener {
+    private fun initAllListeners() {
+        //Listener for the game name
+        val listenerGameName = object : ValueEventListener {
             override fun onDataChange(dataSnapshot: DataSnapshot) {
-                val game = dataSnapshot.getValue(Game::class.java)
-                if (game != null) {
-                    changeDisplayOfGame(game.players?.values?.toMutableList() ?: mutableListOf())
-                }
+                val gameName = dataSnapshot.getValue(String::class.java)
+
+                //Update game name
+                (activity as AppCompatActivity?)?.supportActionBar?.title = getString(R.string.game_screen_title, gameName ?: "")
             }
 
             override fun onCancelled(dataSnapshot: DatabaseError) {
                 Toast.makeText(context!!, getString(R.string.home_cant_get_game_list), Toast.LENGTH_SHORT).show()
             }
         }
-        valueEventListeners.add(listenerGame)
-        mDbRef?.child(TABLE_GAMES)?.child(gameId
-                ?: "")?.addValueEventListener(listenerGame)
+        valueEventListeners.add(listenerGameName)
+        mDbRef?.child(TABLE_GAMES)?.child(gameId!!)?.child(Game::name.name)?.addValueEventListener(listenerGameName)
+
+        //Listener for the game players
+        val listenerGamePlayers = object : ValueEventListener {
+            override fun onDataChange(dataSnapshot: DataSnapshot) {
+                val players = mutableListOf<GamePlayer>()
+                for (item in dataSnapshot.children) {
+                    val player = item.getValue(GamePlayer::class.java)
+                    player?.idPlayer = item.key
+
+                    if (player != null) {
+                        players.add(player)
+                    }
+                }
+
+                //Update players list actually displayed
+                for (listener in listPseudoListeners) {
+                    mDbRef?.removeEventListener(listener)
+                }
+
+                changeDisplayOfGamePlayers(players)
+            }
+
+            override fun onCancelled(dataSnapshot: DatabaseError) {
+                Toast.makeText(context!!, getString(R.string.home_cant_get_game_list), Toast.LENGTH_SHORT).show()
+            }
+        }
+        valueEventListeners.add(listenerGamePlayers)
+        mDbRef?.child(TABLE_GAMES)?.child(gameId!!)?.child(Game::players.name)?.addValueEventListener(listenerGamePlayers)
     }
 
-    private fun changeDisplayOfGame(playersList: MutableList<GamePlayer>) {
+    private fun changeDisplayOfGamePlayers(playersList: MutableList<GamePlayer>) {
         if (playersList.isNotEmpty()) {
             when (playersList.count()) {
                 1 -> {
@@ -94,7 +125,9 @@ class FragmentGame : AbstractFragmentFirebase() {
         linearLayoutBotPlayer.show()
         textViewBotPlayer.show()
 
-        setPlayerName(playerList[0].idPlayer ?: "", 1)
+        //There is only one player so it's by default the main player
+        //The main player is always at the bottom of the screen
+        setPlayerName(playerList[0].idPlayer ?: "", POSITION_BOT)
     }
 
     private fun loadTwoPlayers(playerList: MutableList<GamePlayer>) {
@@ -107,6 +140,7 @@ class FragmentGame : AbstractFragmentFirebase() {
         linearLayoutTopPlayer.show()
         textViewTopPlayer.show()
 
+        //The main player is always at the bottom of the screen
         var mainPlayer: GamePlayer? = null
         for (player in playerList) {
             if (player.leader == true) {
@@ -135,6 +169,7 @@ class FragmentGame : AbstractFragmentFirebase() {
         linearLayoutRightPlayer.show()
         textViewRightPlayer.show()
 
+        //The main player is always at the bottom of the screen
         var mainPlayer: GamePlayer? = null
         for (player in playerList) {
             if (player.leader == true) {
@@ -164,6 +199,7 @@ class FragmentGame : AbstractFragmentFirebase() {
         linearLayoutTopPlayer.show()
         textViewTopPlayer.show()
 
+        //The main player is always at the bottom of the screen
         var mainPlayer: GamePlayer? = null
         for (player in playerList) {
             if (player.leader == true) {
@@ -185,45 +221,36 @@ class FragmentGame : AbstractFragmentFirebase() {
     }
 
     private fun setPlayerName(idPlayer: String, position: Int) {
-        val listenerNbPlayersInGame = object : ValueEventListener {
+        val listenerPlayer = object : ValueEventListener {
             override fun onDataChange(dataSnapshot: DataSnapshot) {
-                for (item in dataSnapshot.children) {
-                    if (item.key == "pseudo") {
-                        var playerName = item.getValue(String::class.java)
-                        if (playerName == null) {
-                            playerName = ""
-                        }
-
-                        setPlayerNameAtRightPosition(playerName, position)
-                        return
-                    }
-                }
+                val playerName = dataSnapshot.getValue(String::class.java)
+                setPlayerNameAtRightPosition(playerName ?: "", position)
             }
 
             override fun onCancelled(dataSnapshot: DatabaseError) {
-                Toast.makeText(context!!, getString(R.string.home_cant_get_player_list), Toast.LENGTH_SHORT).show()
+                Toast.makeText(context!!, getString(R.string.home_cant_refresh_players_name), Toast.LENGTH_SHORT).show()
             }
         }
-        listPseudoListeners.add(listenerNbPlayersInGame)
-        mDbRef?.child("players")?.child(idPlayer)?.addValueEventListener(listenerNbPlayersInGame)
+        listPseudoListeners.add(listenerPlayer)
+        mDbRef?.child(TABLE_PLAYERS)?.child(idPlayer)?.child(User::pseudo.name)?.addValueEventListener(listenerPlayer)
     }
 
     private fun setPlayerNameAtRightPosition(playerName: String, position: Int) {
         when (position) {
-            0 -> {
+            POSITION_TOP -> {
                 textViewTopPlayer.text = playerName
             }
-            1 -> {
+            POSITION_BOT -> {
                 textViewBotPlayer.text = playerName
             }
-            2 -> {
+            POSITION_LEFT -> {
                 textViewLeftPlayer.text = playerName
             }
-            3 -> {
+            POSITION_RIGHT -> {
                 textViewRightPlayer.text = playerName
             }
             else -> {
-
+                Timber.d("Unknown position $position")
             }
         }
     }

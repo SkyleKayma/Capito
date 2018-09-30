@@ -1,56 +1,59 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:fillViewport="true"
-    tools:ignore="MissingPrefix">
+    android:fillViewport="true">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:background="@color/cg_grey_dark_dark"
+        android:background="@color/ca_blue"
+        android:gravity="center_horizontal"
         android:orientation="vertical">
 
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginStart="20dp"
-            android:layout_marginEnd="20dp"
+            android:layout_marginStart="24dp"
+            android:layout_marginEnd="24dp"
+            android:fontFamily="@font/default_font"
             android:padding="10dp"
-            android:text="Veuillez renseigner le nom de la partie:"
-            android:textColor="@color/cg_grey_light"
+            android:text="@string/create_game_fill_game_name"
+            android:textColor="@color/ca_ivoiry"
             android:textSize="16sp" />
 
         <EditText
             android:id="@+id/editTextGameName"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginStart="20dp"
-            android:layout_marginEnd="20dp"
-            android:hint="Ex: Ma super partie"
+            android:layout_marginStart="24dp"
+            android:layout_marginEnd="24dp"
+            android:fontFamily="@font/default_font"
+            android:hint="@string/create_game_game_name"
             android:inputType="text"
             android:padding="10dp"
             android:textColor="@color/cg_grey_light"
-            android:textColorHint="@color/cg_grey_dark" />
+            android:textColorHint="@color/cg_grey_dark"
+            android:textSize="16sp" />
 
         <br.com.simplepass.loading_button_lib.customViews.CircularProgressButton
             android:id="@+id/buttonCreateGame"
             android:layout_width="match_parent"
             android:layout_height="40dp"
-            android:layout_marginStart="20dp"
-            android:layout_marginTop="20dp"
-            android:layout_marginEnd="20dp"
-            android:background="@drawable/shape_button_background_blue"
-            android:text="Créer cette partie"
-            android:textColor="@color/cg_grey_light"
+            android:layout_marginStart="24dp"
+            android:layout_marginTop="16dp"
+            android:layout_marginEnd="24dp"
+            android:background="@drawable/selector_button_background_orange"
+            android:fontFamily="@font/default_font"
+            android:text="@string/create_game_create"
+            android:textColor="@color/ca_ivoiry"
             app:finalCornerAngle="8dp"
             app:initialCornerAngle="8dp"
-            app:spinning_bar_color="#FFF"
+            app:spinning_bar_color="@color/ca_ivoiry"
             app:spinning_bar_padding="6dp"
             app:spinning_bar_width="4dp" />
 
     </LinearLayout>
+
 </ScrollView>

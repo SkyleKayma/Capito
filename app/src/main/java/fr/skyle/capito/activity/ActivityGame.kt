@@ -2,13 +2,11 @@ package fr.skyle.capito.activity
 
 import android.os.Bundle
 import android.support.v4.app.Fragment
+import fr.skyle.capito.KEY_GAME_NAME
 import fr.skyle.capito.R
 import fr.skyle.capito.fragment.FragmentGame
 
 class ActivityGame : AbstractActivityFragment() {
-
-    override val layoutId: Int
-        get() = R.layout.container_toolbar
 
     override val showHomeAsUp: Boolean
         get() = true
@@ -20,6 +18,8 @@ class ActivityGame : AbstractActivityFragment() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        supportActionBar?.title = getString(R.string.set_pseudo_screen_title)
+        //We temporally set the game name, it will be refreshed when fragment will be loaded with game data
+        val gameName = intent?.getStringExtra(KEY_GAME_NAME)
+        supportActionBar?.title = getString(R.string.game_screen_title, gameName)
     }
 }

@@ -3,43 +3,45 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="@color/cg_grey_dark_light"
-    android:orientation="vertical"
-    tools:ignore="MissingPrefix">
+    android:layout_marginBottom="2dp"
+    android:background="@drawable/shape_background_item_blue_rounded"
+    android:orientation="vertical">
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="50dp"
+        android:layout_height="48dp"
         android:gravity="center_vertical"
         android:orientation="horizontal"
-        android:padding="10dp">
+        android:padding="8dp">
 
         <TextView
             android:id="@+id/textViewGameName"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
+            android:ellipsize="end"
             android:gravity="center_vertical"
-            android:textColor="@color/cg_grey_light"
-            android:textSize="18sp"
+            android:maxLines="1"
+            android:textColor="@color/ca_ivoiry"
+            android:textSize="16sp"
             tools:text="Game de Skyle" />
 
         <TextView
             android:id="@+id/textViewNbPlayers"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="10dp"
-            android:layout_marginEnd="10dp"
+            android:layout_marginStart="12dp"
+            android:layout_marginEnd="12dp"
             android:gravity="center_vertical"
-            android:textColor="@color/cg_grey_light"
-            android:textSize="14sp"
+            android:textColor="@color/ca_ivoiry"
+            android:textSize="16sp"
             tools:text="1/4" />
 
     </LinearLayout>
 
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:background="@color/cg_grey_dark_dark" />
+    <!--<View-->
+    <!--android:layout_width="match_parent"-->
+    <!--android:layout_height="1dp"-->
+    <!--android:background="@color/cg_grey_dark_dark" />-->
 
 </LinearLayout>

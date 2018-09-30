@@ -36,14 +36,14 @@ class FragmentMain : AbstractFragmentFirebase() {
         //Set layoutManager
         recyclerViewGameList.layoutManager = LinearLayoutManager(context)
 
-        iniListeners()
+        initListeners()
     }
 
     // ---------------------------------------------------
     // --- SPECIFIC JOB ---
     // ---------------------------------------------------
 
-    private fun iniListeners() {
+    private fun initListeners() {
         buttonMainCreateGame.setOnClickListener {
             goToCreateGameActivity()
         }
@@ -67,7 +67,7 @@ class FragmentMain : AbstractFragmentFirebase() {
             }
         }
         valueEventListeners.add(listenerGame)
-        mDbRef?.child(TABLE_GAMES)?.limitToLast(20)?.addValueEventListener(listenerGame)
+        mDbRef?.child(TABLE_GAMES)?.addValueEventListener(listenerGame)
     }
 
     private fun updateGameList() {
@@ -77,12 +77,12 @@ class FragmentMain : AbstractFragmentFirebase() {
             showData()
 
             if (recyclerViewGameList?.adapter == null) {
-                recyclerViewGameList.adapter = AdapterGame(context!!, gameList) { gameId ->
+                recyclerViewGameList.adapter = AdapterGame(context!!, gameList.takeLast(20).toMutableList()) { gameId ->
                     //TODO do something
                 }
             } else {
                 val list = getFilteredList(editTextSearchGame.editableText.toString())
-                (recyclerViewGameList?.adapter as AdapterGame).gameList = list
+                (recyclerViewGameList?.adapter as AdapterGame).gameList = list.takeLast(20).toMutableList()
                 recyclerViewGameList?.adapter?.notifyDataSetChanged()
             }
 
@@ -92,7 +92,8 @@ class FragmentMain : AbstractFragmentFirebase() {
 
     private fun setSearchListeners() {
         //Listen for changing in SearchView
-        disposables.add(RxTextView.afterTextChangeEvents(editTextSearchGame)
+        disposables.add(
+            RxTextView.afterTextChangeEvents(editTextSearchGame)
                 .debounce(20, TimeUnit.MILLISECONDS)
                 .subscribe({
                     activity?.runOnUiThread {
@@ -102,7 +103,8 @@ class FragmentMain : AbstractFragmentFirebase() {
                     }
                 }, { error ->
                     Timber.e(error)
-                }))
+                })
+        )
     }
 
     private fun getFilteredList(filter: String): MutableList<Game> {

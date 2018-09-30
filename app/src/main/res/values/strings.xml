@@ -1,32 +1,52 @@
 <resources>
     <string name="app_name">Capito</string>
 
-    <!-- FONTS -->
-    <string name="font_exo_bold">fonts/Exo2-Bold.ttf</string>
-    <string name="font_exo_italic">fonts/Exo2-Italic.ttf</string>
-    <string name="font_exo_light">fonts/Exo2-Light.ttf</string>
-    <string name="font_exo_medium">fonts/Exo2-Medium.ttf</string>
-    <string name="font_exo_regular">fonts/Exo2-Regular.ttf</string>
+    <!-- GENERIC -->
+    <string name="generic_ok">OK</string>
+    <string name="generic_cancel">Annuler</string>
+    <string name="generic_email">Email</string>
+    <string name="generic_password">Mot de passe</string>
+    <string name="generic_pseudo">Pseudo</string>
+    <string name="generic_no_network">"Vous n'êtes pas connecté à internet"</string>
 
     <!-- LOGIN -->
     <string name="login_screen_title">Connexion</string>
-    <string name="login_no_account_creation_pending">"Vous n'avez pas de compte, création en cours…"</string>
     <string name="login_account_creation_failed">Création de compte impossible</string>
+    <string name="login_create_if_no_account">"Si vous n'avez pas encore de compte, alors nous en créerons un à la connexion."</string>
+    <string name="login_login">Se connecter</string>
+    <string name="login_please_fill_email">Veuillez saisir un email</string>
+    <string name="login_please_fill_password">Veuillez saisir un mot de passe</string>
+    <string name="login_email_format_invalid">"Le format de l'email est invalide"</string>
+    <string name="login_password_format_invalid">Le mot de passe doit faire au moins %d caractères</string>
 
     <!-- SET PSEUDO -->
     <string name="set_pseudo_screen_title">Choix de pseudo</string>
     <string name="set_pseudo_account_creation_successful">Création de compte réussie</string>
     <string name="set_pseudo_account_creation_failed">Création de compte impossible</string>
+    <string name="set_pseudo_fill_pseudo">Veuillez renseigner un pseudo:</string>
+    <string name="set_pseudo_choose_that_pseudo">Choisir ce pseudo</string>
+    <string name="set_pseudo_please_fill_pseudo">Choisir ce pseudo</string>
 
     <!-- HOME -->
     <string name="home_screen_title">Liste des parties</string>
     <string name="home_cant_get_game_list">Récupération des parties impossible</string>
-    <string name="home_cant_get_player_list">Récupération des joueurs impossible</string>
+    <string name="home_cant_refresh_players_name">"Impossible d'actualiser le nom des joueurs"</string>
     <string name="home_nb_players_format">%d/%d</string>
+    <string name="home_find_game">Rechercher une partie</string>
+    <string name="home_no_game">"Aucune partie n'est en cours pour le moment. Cette liste sera mise à jour dès qu'une nouvelle commencera."</string>
+    <string name="home_cant_join_game">"Vous ne pouvez pas rejoindre cette partie"</string>
+    <string name="home_already_full">La partie est déjà pleine</string>
 
     <!-- CREATE GAME -->
     <string name="create_game_screen_title">Créer une partie</string>
     <string name="create_game_creation_successful">La partie a été crée</string>
     <string name="create_game_creation_failed">Impossible de créer la partie</string>
+    <string name="create_game_fill_game_name">Veuillez renseigner le nom de la partie:</string>
+    <string name="create_game_game_name">Nom de la partie</string>
+    <string name="create_game_create">Créer la partie</string>
+    <string name="create_game_please_fill_game_name">Veuillez renseigner le nom de la partie</string>
+
+    <!-- GAME -->
+    <string name="game_screen_title">Salon: %s</string>
 
 </resources>

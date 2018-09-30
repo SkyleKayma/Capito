@@ -7,12 +7,12 @@ import fr.skyle.capito.fragment.FragmentSetPseudo
 
 class ActivitySetPseudo : AbstractActivityFragment() {
 
-    override val layoutId: Int
-        get() = R.layout.container_no_toolbar
-
     override fun getDefaultFragment(): Fragment? {
         return FragmentSetPseudo()
     }
+
+    override val showHomeAsUp: Boolean
+        get() = true
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
