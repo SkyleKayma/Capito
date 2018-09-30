@@ -27,4 +27,7 @@ Celui qui a le plus de points gagne la manche.
 Chaque partie se joue en 4 manches.
 Le but est d'avoir le plus de points à la fin des 4 manches.
 
+Ajouter:
+
 + Les emotes
++ Les effets de cartes
